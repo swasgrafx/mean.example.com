@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  h1 Create an Article
+  form(method='post' action='/users/articles')
+    div
+      label(for='title') Title
+      input(type='text' name='title' id='title')
+    div
+      label(for='slug') Slug
+      input(type='text' name='slug' id='slug')
+    div
+      label(for='keywords') Keywords
+      input(type='text' name='keywords' id='keywords')
+    div
+      label(for='description') Description
+      input(type='text' name='description' id='description')
+    div
+      label(for='body') Body
+      input(type='text' name='body' id='body')
+    div
+      label(for='created') Created
+      input(type='text' name='created' id='created')
+    div
+      label(for='body') Modified
+      input(type='text' name='modified' id='modified')
+    div
+      label(for='body') Published
+      input(type='text' name='published' id='published')
+    div
+      input(type='submit' value='submit')
