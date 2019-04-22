@@ -4,6 +4,7 @@ var uniqueValidator = require('mongoose-unique-validator');
 var passportLocalMongoose = require('passport-local-mongoose'); 
 
 var Users = new Schema({
+    avatar: String,
     email: {
         type: String,
     required: [true, 'Please enter an email'],
@@ -36,6 +37,11 @@ var Users = new Schema({
     },
 
 });
+//Added this for log-in
+Users.pre('save', function(next){
+    this.modified = new Date().toISOString();
+    next();
+  });  
 
 Users.plugin(uniqueValidator);
 Users.plugin(passportLocalMongoose);

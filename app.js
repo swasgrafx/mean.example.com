@@ -9,6 +9,14 @@ var LocalStrategy = require('passport-local').Strategy;
 //Require models
 var Users = require('./models/users');
 
+var apiAuthRouter = require('./routes/api/auth');
+var apiUsersRouter = require('./routes/api/users');
+var authRouter = require('./routes/auth');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+
+var app = express();
+
 if(process.env.NODE_ENV==='production'){
   var config = require('../config.prod');
 }else{
@@ -23,8 +31,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles');
 var cmsRouter = require('./routes/cms');
+var listsRouter = require('./routes/lists');
 var apiUsersRouter = require('./routes/api/users');
 var apiArticlesRouter = require('./routes/api/articles');
+var apiListsRouter = require('./routes/api/lists');
 
 var app = express();
 
@@ -92,7 +102,8 @@ app.use(function(req,res,next){
 
 //Session based access control
 app.use(function(req,res,next){
-  //return next();
+  //Skip the Whitelist for debug and dev. (Angular)
+  return next();
 
   var whitelist = [
     '/',
@@ -121,6 +132,7 @@ app.use(function(req,res,next){
     return next();
   }
 
+//  return res.redirect('/auth#login');
   return res.redirect('/users/login');
 });
 
@@ -140,10 +152,11 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/articles', articlesRouter);
+app.use('/lists', listsRouter);
 app.use('/cms', cmsRouter);
 app.use('/api/users', apiUsersRouter);
 app.use('/api/articles', apiArticlesRouter);
-
+app.use('/api/lists', apiListsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
